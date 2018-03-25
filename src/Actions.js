@@ -6,7 +6,7 @@ class Actions extends Component {
   render() {
     return (
       <div className="App">
-       	<button type="button">Feed</button>
+       	<button onclick="button">Feed</button>
 	<button type="button">Play</button>
 	<button type="button">Clean</button>
 	<button type="button">Bathe</button>

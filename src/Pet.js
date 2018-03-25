@@ -56,7 +56,7 @@ class Pet extends Component {
 			<div>
 				<PetHeader pet={pet} />
 			</div>
-		);
+		)
 	}
 }
 

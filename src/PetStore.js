@@ -8,9 +8,11 @@ class PetnameView extends Component {
 	}
 
 	render() {
-		<div class="petnameview">
-			<input type="text" placeholder="petname" onKeyPress={this.createPet} />
-		</div>
+		return(
+			<div class="petnameview">
+				<input type="text" placeholder="petname" onKeyPress={this.createPet} />
+			</div>
+		);
 	}
 }
 
@@ -32,14 +34,14 @@ class PetStore extends Component {
 	}
 
 	petBtnClick(e) {
-		this.props.displayPet(e.target.data-pet-id);
+		this.props.displayPet(e.target.dataPetId);
 	}
 
 	render() {
-		var pets = getPets(this.props.username).result;
+		var pets = this.getPets(this.props.username).result;
 		var self = this;
 
-		if (showPetnameView)
+		if (this.props.shouldShowPetnameView)
 			return (<PetnameView createPet={this.props.createPet} />);
 
 		return (
@@ -48,9 +50,9 @@ class PetStore extends Component {
 					return (
 						<button type='button' onclick={self.petBtnClick} class='pet_icon' data-pet-id={pet.petID}>{pet.name}</button>
 					);
-				});}
+				})}
 
-				<button onclick={self.props.showPetView} class='pet_icon_add'>+</button>
+				<button onclick={self.props.showPetnameView} class='pet_icon_add'>+</button>
 			</div>
 	   );
 	}

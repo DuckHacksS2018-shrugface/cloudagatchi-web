@@ -23,8 +23,9 @@ class TravelPetView extends Component {
 	constructor(props) {
 		super(props);
 		this.handleUser.bind(this);
+		this.createPet.bind(this);
 		this.displayPet.bind(this);
-		this.state = {username: '', petID: ''};
+		this.state = {username: '', petID: '', shouldShowPetnameView: false};
 	}
 
 	createUser(username) {
@@ -60,12 +61,14 @@ class TravelPetView extends Component {
 	createPet(petName) {
 		var petPostReq = new XMLHttpRequest();
 		var self = this;
+		var petID = Math.random().toString(36).substring(7);
 
 		petPostReq.onload = function() {
 			if (this.readyState == 4 && this.status == "200") {
-				self.setState({petID: petID});
+				self.setState({petID, shouldShowPetnameView: false});
 			} else {
-
+				console.log("Error");
+				self.setState({petId: '', shouldShowPetnameView: false});
 			}
 		}
 
@@ -77,15 +80,19 @@ class TravelPetView extends Component {
 		this.setState({petID});
 	}
 
+	showPetnameView() {
+		this.setState({shouldShowPetnameView: true});
+	}
+
 	render() {
 		if (this.state.username == '') 
 			return(<UsernameView handleUser={this.handleUser} />);
 
 		return (
 			<div>
-				<PetStore currPetID={this.state.petID} username={this.state.username} displayPet={this.displayPet} createPet={this.createPet} config={config}  />
-				<Pet petID={this.state.petID} config={config} />
-				<Actions petname={this.state.petname} />
+				<PetStore currPetID={this.state.petID} username={this.state.username} displayPet={this.displayPet} createPet={this.createPet} shouldShowPetnameView={this.state.shouldShowPetnameView} showPetnameView={this.showPetnameView} config={config}  />
+				<Pet petID={this.state.petID} createPet={this.createPet} config={config} />
+				<Actions petID={this.state.petID} petname={this.state.petname} config={config} />
 			</div>
    		);
 	}

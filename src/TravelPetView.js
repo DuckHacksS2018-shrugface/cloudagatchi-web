@@ -42,7 +42,7 @@ class TravelPetView extends Component {
 			if (this.readyState == 4 && this.status == 200) {
 				self.setState({username});
 			}
-		}
+		}.bind(this);
 
 		userPostReq.open("POST", config.url + 'api/user/' + username);
 		userPostReq.send();
@@ -63,13 +63,13 @@ class TravelPetView extends Component {
 				userPostReq.onload = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						self.setState({username});
+					}
+				}.bind(this);
+				
+				userPostReq.open("POST", config.url + 'api/user/' + username);
+				userPostReq.send();
 			}
-		}
-
-		userPostReq.open("POST", config.url + 'api/user/' + username);
-		userPostReq.send();
-			}
-		}
+		}.bind(this);
 
 		userGetReq.open("GET", config.url + 'api/user/' + username);
 		userGetReq.send();
@@ -109,7 +109,7 @@ class TravelPetView extends Component {
 			<div>
 				<PetStore currPetID={this.state.petID} username={this.state.username} displayPet={this.displayPet} createPet={this.createPet} shouldShowPetnameView={this.state.shouldShowPetnameView} showPetnameView={this.showPetnameView} config={config}  />
 				<Pet petID={this.state.petID} createPet={this.createPet} config={config} />
-				<Actions petID={this.state.petID} petname={this.state.petname} config={config} />
+				<Actions age={this.state.age} petID={this.state.petID} petname={this.state.petname} config={config} />
 			</div>
    		);
 	}

@@ -5,15 +5,20 @@ import Pet from './Pet';
 import Actions from './Actions';
 
 class UsernameView extends Component {
+	constructor(props) {
+		super(props);
+		this.handleUser = this.handleUser.bind(this);
+	}
+
 	handleUser(e) {
-		if (e.key === 'Enter')
+		if (e.keyCode == 13)
 			this.props.handleUser(e.target.value);
 	}
 	
 	render() {
 		return (
-			<div class='username_prompt'>
-				<input type='text' placeholder='Username' onKeyPress={this.handleUser} />
+			<div className='username_prompt'>
+				<input type='text' placeholder='Username' onKeyDown={this.handleUser} />
 			</div>
 		);
 	}
@@ -22,6 +27,7 @@ class UsernameView extends Component {
 class TravelPetView extends Component {	
 	constructor(props) {
 		super(props);
+		this.createUser.bind(this);
 		this.handleUser.bind(this);
 		this.createPet.bind(this);
 		this.displayPet.bind(this);
@@ -48,9 +54,20 @@ class TravelPetView extends Component {
 
 		userGetReq.onload = function() {
 			if (this.readyState == 4 && this.status == 200) {
+				console.log("yay exists");
 				self.setState({username});
 			} else {
-				self.createUser(username);
+				//self.createUser(username);
+				var userPostReq = new XMLHttpRequest();
+
+				userPostReq.onload = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						self.setState({username});
+			}
+		}
+
+		userPostReq.open("POST", config.url + 'api/user/' + username);
+		userPostReq.send();
 			}
 		}
 
@@ -85,7 +102,7 @@ class TravelPetView extends Component {
 	}
 
 	render() {
-		if (this.state.username == '') 
+		if (this.state.username === '') 
 			return(<UsernameView handleUser={this.handleUser} />);
 
 		return (

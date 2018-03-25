@@ -1,13 +1,16 @@
 import config from './config.json';
 import React, { Component } from 'react';
 
-class PetIcon extends Component {
-	petBtnClick(e) {
-		this.props.displayPet(e.target.data-pet-id);
+class PetnameView extends Component {
+	createPet(e) {
+		if (e.key === 'Enter')
+			this.props.createPet(e.target.value);
 	}
 
 	render() {
-		<button onclick={this.petBtnClick} class='pet_icon' data-pet-id={this.props.pet.petID}>{this.props.pet.name}</button>
+		<div class="petnameview">
+			<input type="text" placeholder="petname" onKeyPress={this.createPet} />
+		</div>
 	}
 }
 
@@ -19,7 +22,7 @@ class PetStore extends Component {
 			if (this.readyState == 4 && this.status == "200") {
 				return JSON.parse(this.responseText);
 			} else {
-				this.props.createUser(username);
+				// This part shouldn't happen considering we check for an existing user, but also safety nets are good
 				return {};
 			}
 		}
@@ -28,18 +31,26 @@ class PetStore extends Component {
 		petGetReq.send();
 	}
 
+	petBtnClick(e) {
+		this.props.displayPet(e.target.data-pet-id);
+	}
+
 	render() {
-		var pets = getPets(this.props.username);
+		var pets = getPets(this.props.username).result;
+		var self = this;
+
+		if (showPetnameView)
+			return (<PetnameView createPet={this.props.createPet} />);
 
 		return (
-			<div>
-				{this.pets.map(function(pet) {
+			<div class="pet_store">
+				{pets.map(function(pet) {
 					return (
-						<PetIcon pet={pet} displayPet={this.props.displayPet} />
+						<button type='button' onclick={self.petBtnClick} class='pet_icon' data-pet-id={pet.petID}>{pet.name}</button>
 					);
 				});}
 
-				<button onclick={this.props.createPet} class='pet_icon_add'>+</button>
+				<button onclick={self.props.showPetView} class='pet_icon_add'>+</button>
 			</div>
 	   );
 	}

@@ -1,0 +1,15 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+<<<<<<< Updated upstream
+import TravelPetView from './TravelPetView';
+import registerServiceWorker from './registerServiceWorker';
+
+ReactDOM.render(<TravelPetView />, document.getElementById('root'));
+=======
+import './index.css';
+import Actions from './Actions';
+import registerServiceWorker from './registerServiceWorker';
+
+ReactDOM.render(<Actions />, document.getElementById('root'));
+>>>>>>> Stashed changes
+registerServiceWorker();
